@@ -27,13 +27,18 @@ app.get('/producer', (req, res) => {
                 return res.send(err)
             }
 
-            const queue = 'bQueue'
+            const queue = 'abcd'
             const msg = JSON.stringify(balanceIds)
+            
+            ch.assertQueue(queue, { durable: false })
 
-            ch.assertQueue(queue, { durable: true })
-            ch.sendToQueue(queue, Buffer.from(msg), { persistent: true})
+            for (const id of balanceIds) {
+                ch.sendToQueue(queue, Buffer.from(id), { persistent: true })
 
-            console.log(`sent ${msg} to ${queue}`)
+                console.log(`sent ${id} to ${queue}`)
+
+            }
+
             res.send("Message from producer")
         })
     })
