@@ -1,6 +1,5 @@
 const axios = require("axios")
 const amqp = require("amqplib/callback_api")
-const port = 5000
 
 console.time('programExecution')
 

@@ -1,5 +1,5 @@
 {
-  "name": "consumer1",
+  "name": "consumer3",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -13,6 +13,5 @@
     "amqplib": "^0.10.3",
     "axios": "^1.5.1"
   },
-  "devDependencies": {},
   "description": ""
 }
