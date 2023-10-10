@@ -15,28 +15,29 @@ app.get('/producer', (req, res) => {
         "0xa180Fe01B906A1bE37BE6c534a3300785b20d947"
     ]
 
-    amqp.connect('amqp://localhost', (err, conn) => {
+    amqp.connect('amqp://localhost', (err0, conn) => {
 
-        if (err) {
-            console.log(err)
-            return res.send(err)
+        if (err0) {
+            console.log(err0)
+            return res.send(err0)
         }
 
-        conn.createChannel((err, ch) => {
-            if (err) {
-                return res.send(err)
+        conn.createChannel((err1, ch) => {
+            if (err1) {
+                console.log(err1)
+                return res.send(err1)
             }
 
-            const queue = 'abcd'
+            const queue = 'msg'
             const msg = JSON.stringify(balanceIds)
-            
-            ch.assertQueue(queue, { durable: false })
+
+            ch.assertQueue(queue, { durable: true })
 
             for (const id of balanceIds) {
-                ch.sendToQueue(queue, Buffer.from(id), { persistent: true })
+                const mg = JSON.stringify(id)
+                ch.sendToQueue(queue, Buffer.from(mg), { persistent: true })
 
-                console.log(`sent ${id} to ${queue}`)
-
+                console.log(`sent ${mg} to ${queue}`)
             }
 
             res.send("Message from producer")
