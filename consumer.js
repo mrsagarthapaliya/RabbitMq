@@ -17,7 +17,7 @@ const runTask = async () => {
         console.log()
     } catch (error) {
         console.error('An error occurred:', error);
-    } 
+    }
     console.timeEnd('queueExecutionTime');
 };
 
