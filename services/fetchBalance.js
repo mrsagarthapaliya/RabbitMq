@@ -18,7 +18,7 @@ const fetchBalance = async (balanceId, i) => {
 
     const balance = response.data.result
 
-    console.log(`microservice ${i}-->> balance fetched`)
+    console.log(`microservice ${i}-->> balance fetched -->> ${balance}`)
     return balance
 
 }

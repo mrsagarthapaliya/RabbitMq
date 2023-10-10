@@ -6,6 +6,7 @@ const app = express();
 
 app.get('/producer', (req, res) => {
 
+    // adding crypto wallet addressses
     const balanceIds = [
         "0x29bDfbf7D27462a2d115748ace2bd71A2646946c",
         "0xdccF3B77dA55107280bd850ea519DF3705D1a75a",
@@ -15,6 +16,7 @@ app.get('/producer', (req, res) => {
         "0xa180Fe01B906A1bE37BE6c534a3300785b20d947"
     ]
 
+    //starting with the connection by producer
     amqp.connect('amqp://localhost', (err0, conn) => {
 
         if (err0) {
@@ -22,29 +24,32 @@ app.get('/producer', (req, res) => {
             return res.send(err0)
         }
 
+        //channel creation by producer
         conn.createChannel((err1, ch) => {
             if (err1) {
                 console.log(err1)
                 return res.send(err1)
             }
 
-            const queue = 'msg'
-            const msg = JSON.stringify(balanceIds)
+            const queue = 'msg' //name of the queue -- use same name for both producer and consumer
 
-            ch.assertQueue(queue, { durable: true })
+            ch.assertQueue(queue, { durable: true }) // Durable (the queue will survive a broker restart)
 
+            //sending messages to the queue in a loop
             for (const id of balanceIds) {
                 const mg = JSON.stringify(id)
                 ch.sendToQueue(queue, Buffer.from(mg), { persistent: true })
 
                 console.log(`sent ${mg} to ${queue}`)
             }
-
-            res.send("Message from producer")
+            res.send({
+                message: "Message from producer",
+                data: balanceIds
+            })
         })
     })
 })
 
 app.listen(port, () => {
-    console.log("producer server started @ 5001")
+    console.log("producer server started @ 5001\n")
 })
