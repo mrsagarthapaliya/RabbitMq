@@ -1,24 +1,23 @@
-const { consumerTask } = require("./services/consumerTask");
+const { consumerTask } = require("./services/consumerTask")
 
 const consumers = 6; // define the maximum number of consumers
 
 const runTask = async () => {
-    console.time('queueExecutionTime');
 
-    const taskPromises = [];
+    const taskPromises = []
 
     for (let i = 1; i <= consumers; i++) {
-        taskPromises.push(consumerTask(i)); // Create an array of task promises
+        taskPromises.push(consumerTask(i)) // Create an array of task promises
     }
 
     try {
-        console.log(`${consumers} consumers have completed the task`);
-        await Promise.all(taskPromises); // Wait for all tasks to complete
-        console.log()
+        console.time('queueExecutionTime')
+        await Promise.all(taskPromises) // Wait for all tasks to complete
+        console.log(`${consumers} consumers have completed the task`)
+        console.timeEnd('queueExecutionTime')
     } catch (error) {
-        console.error('An error occurred:', error);
+        console.error('An error occurred:', error)
     }
-    console.timeEnd('queueExecutionTime');
 };
 
 runTask();
