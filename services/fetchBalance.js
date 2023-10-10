@@ -1,7 +1,7 @@
 const axios = require("axios")
 
-const BSCSCAN_API_KEY = "JVAWPEJIP8PGE63B54YHPX8G93FJ768F6J"
-const BSCSCAN_API_URL = "https://api.bscscan.com/api"
+const BSCSCAN_API_KEY = process.env.BSCSCAN_API_KEY
+const BSCSCAN_API_URL = process.env.BSCSCAN_API_URL
 
 const fetchBalance = async (balanceId, i) => {
     const response = await axios.get(
